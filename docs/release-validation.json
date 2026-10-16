@@ -1,0 +1,53 @@
+{
+  "gui_installation_tested": false,
+  "package": {
+    "production_directory_modified": false,
+    "installer_host": "Windows PowerShell 5.1",
+    "dll_sha256": "5b1f8ce4af7881edfd9cc4756df18012a49213001e4cc45af2cd768ca578b8c4",
+    "checks": [
+      {
+        "passed": true,
+        "name": "archive includes only distributable payload and docs"
+      },
+      {
+        "passed": true,
+        "name": "fresh install matches released payload"
+      },
+      {
+        "passed": true,
+        "name": "original backup preserved"
+      },
+      {
+        "passed": true,
+        "name": "repeat installation succeeds"
+      },
+      {
+        "passed": true,
+        "name": "uninstall restores verified original"
+      },
+      {
+        "passed": true,
+        "name": "known development build upgrades without overwriting backup"
+      },
+      {
+        "passed": true,
+        "name": "unknown replacement rejected and retained"
+      }
+    ],
+    "archive_entries": [
+      "API.md",
+      "INSTALL.ps1",
+      "LICENSE.nlohmann-json.txt",
+      "README.md",
+      "release.json",
+      "SHA256.txt",
+      "window_size_plugin.dll"
+    ]
+  },
+  "native_dll_sha256": "5b1f8ce4af7881edfd9cc4756df18012a49213001e4cc45af2cd768ca578b8c4",
+  "private_build_paths_present": false,
+  "native_synthesis_checks": 77,
+  "native_restart_checks": 14,
+  "editor_version": "2.13.0",
+  "version": "0.1.0"
+}

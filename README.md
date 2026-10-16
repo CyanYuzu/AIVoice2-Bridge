@@ -1,5 +1,8 @@
 # A.I.VOICE2 Editor 根目录 DLL API Bridge
 
+普通用户直接下载 [v0.1.0 预览版安装包](https://github.com/CyanYuzu/AIVoice2-Bridge/releases/tag/v0.1.0)，无需编译。
+首次安装、YMM4 配套使用、卸载和故障排查见 [完整使用说明](docs/INSTALLATION.md)。
+
 当前方案只有一个功能 DLL：`drop-in/window_size_plugin.dll`。
 它替换原程序根目录同名插件，并转调原插件的备份 `aivoice2_window_size_original.dll`。
 正常打开原版 `aivoice.exe`，API 自动在该编辑器进程中可用。

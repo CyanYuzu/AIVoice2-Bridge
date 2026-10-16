@@ -30,9 +30,9 @@ WinExec、CreateRemoteThread、VirtualAllocEx、WriteProcessMemory；PE 导入�
 
 当前通过结果保存在 evidence/dropin-e2e.json 和 evidence/dropin-restart.json。
 
-本地验收构建 DLL SHA-256（不同构建不保证字节相同）：`0baed598f8f61785966a3af181f1d356bdb31b81e6befff4e11ecb00a3fbed99`，584,704 字节。
+本地验收构建 DLL SHA-256（不同构建不保证字节相同）：`5b1f8ce4af7881edfd9cc4756df18012a49213001e4cc45af2cd768ca578b8c4`，536,576 字节。
 修复后的完整合成检查 **77/77 通过**；原编辑器正常重启检查 **14/14 通过**。
-8 个排队任务累计 33.8293 秒音频，墙钟 6.6390 秒，RTF 0.1962。
+8 个排队任务累计 33.8293 秒音频，墙钟 7.4975 秒，RTF 0.2216。
 这些是原编辑器中的原厂合成结果；测试请求由已有 PowerShell 检查会话发出。
 本地模块、文件哈希、进程及就绪状态记录于 `evidence/dropin-final.json`。
 

@@ -1,8 +1,8 @@
 {
   "batch": {
-    "real_time_factor": 0.19624871511902886,
-    "wall_seconds": 6.6389632,
-    "audio_seconds": 33.82933333333333
+    "real_time_factor": 0.22162762198486521,
+    "audio_seconds": 33.82933333333333,
+    "wall_seconds": 7.4975147
   },
   "protocol": 2,
   "schema_version": 1,
@@ -17,368 +17,368 @@
   "voice_count": 8,
   "checks": [
     {
-      "passed": true,
-      "name": "native drop-in ready"
+      "name": "native drop-in ready",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "eight licensed voices"
+      "name": "eight licensed voices",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "native rate bounds"
+      "name": "native rate bounds",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "baseline succeeded"
+      "name": "baseline succeeded",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "baseline WAV"
+      "name": "baseline WAV",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "baseline hash"
+      "name": "baseline hash",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "repeat succeeded"
+      "name": "repeat succeeded",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "repeat WAV"
+      "name": "repeat WAV",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "repeat hash"
+      "name": "repeat hash",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "repeat bit identical"
+      "name": "repeat bit identical",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "faster succeeded"
+      "name": "faster succeeded",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "faster WAV"
+      "name": "faster WAV",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "faster hash"
+      "name": "faster hash",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "rate changes duration"
+      "name": "rate changes duration",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "parameter-pitch succeeded"
+      "name": "parameter-pitch succeeded",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "parameter-pitch WAV"
+      "name": "parameter-pitch WAV",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "parameter-pitch hash"
+      "name": "parameter-pitch hash",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "parameter-pitch changes waveform"
+      "name": "parameter-pitch changes waveform",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "parameter-volume succeeded"
+      "name": "parameter-volume succeeded",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "parameter-volume WAV"
+      "name": "parameter-volume WAV",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "parameter-volume hash"
+      "name": "parameter-volume hash",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "parameter-volume changes waveform"
+      "name": "parameter-volume changes waveform",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "parameter-emphasis succeeded"
+      "name": "parameter-emphasis succeeded",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "parameter-emphasis WAV"
+      "name": "parameter-emphasis WAV",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "parameter-emphasis hash"
+      "name": "parameter-emphasis hash",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "parameter-emphasis changes waveform"
+      "name": "parameter-emphasis changes waveform",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "parameter-styles succeeded"
+      "name": "parameter-styles succeeded",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "parameter-styles WAV"
+      "name": "parameter-styles WAV",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "parameter-styles hash"
+      "name": "parameter-styles hash",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "parameter-styles changes waveform"
+      "name": "parameter-styles changes waveform",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "reset succeeded"
+      "name": "reset succeeded",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "reset WAV"
+      "name": "reset WAV",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "reset hash"
+      "name": "reset hash",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "parameters isolated"
+      "name": "parameters isolated",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "KizunaAkari_ns_48 succeeded"
+      "name": "KizunaAkari_ns_48 succeeded",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "KizunaAkari_ns_48 WAV"
+      "name": "KizunaAkari_ns_48 WAV",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "KizunaAkari_ns_48 hash"
+      "name": "KizunaAkari_ns_48 hash",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "KotonohaAkane_ns_48 succeeded"
+      "name": "KotonohaAkane_ns_48 succeeded",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "KotonohaAkane_ns_48 WAV"
+      "name": "KotonohaAkane_ns_48 WAV",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "KotonohaAkane_ns_48 hash"
+      "name": "KotonohaAkane_ns_48 hash",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "KotonohaAoi_ns_48 succeeded"
+      "name": "KotonohaAoi_ns_48 succeeded",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "KotonohaAoi_ns_48 WAV"
+      "name": "KotonohaAoi_ns_48 WAV",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "KotonohaAoi_ns_48 hash"
+      "name": "KotonohaAoi_ns_48 hash",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "MeikaHime_ns_48 succeeded"
+      "name": "MeikaHime_ns_48 succeeded",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "MeikaHime_ns_48 WAV"
+      "name": "MeikaHime_ns_48 WAV",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "MeikaHime_ns_48 hash"
+      "name": "MeikaHime_ns_48 hash",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "MeikaMikoto_ns_48 succeeded"
+      "name": "MeikaMikoto_ns_48 succeeded",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "MeikaMikoto_ns_48 WAV"
+      "name": "MeikaMikoto_ns_48 WAV",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "MeikaMikoto_ns_48 hash"
+      "name": "MeikaMikoto_ns_48 hash",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "OtomachiUna_ns_48 succeeded"
+      "name": "OtomachiUna_ns_48 succeeded",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "OtomachiUna_ns_48 WAV"
+      "name": "OtomachiUna_ns_48 WAV",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "OtomachiUna_ns_48 hash"
+      "name": "OtomachiUna_ns_48 hash",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "TsunoseKotone_ns_48 succeeded"
+      "name": "TsunoseKotone_ns_48 succeeded",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "TsunoseKotone_ns_48 WAV"
+      "name": "TsunoseKotone_ns_48 WAV",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "TsunoseKotone_ns_48 hash"
+      "name": "TsunoseKotone_ns_48 hash",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "original setter error reported"
+      "name": "original setter error reported",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "invalid task has no WAV"
+      "name": "invalid task has no WAV",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "after-error succeeded"
+      "name": "after-error succeeded",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "after-error WAV"
+      "name": "after-error WAV",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "after-error hash"
+      "name": "after-error hash",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "recovery retains original waveform"
+      "name": "recovery retains original waveform",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "queued cancellation"
+      "name": "queued cancellation",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "active cancellation"
+      "name": "active cancellation",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "cancel cleans partial"
+      "name": "cancel cleans partial",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "after-cancel succeeded"
+      "name": "after-cancel succeeded",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "after-cancel WAV"
+      "name": "after-cancel WAV",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "after-cancel hash"
+      "name": "after-cancel hash",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "after cancellation recovery"
+      "name": "after cancellation recovery",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "batch queue completes"
+      "name": "batch queue completes",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "batch repeatability"
+      "name": "batch repeatability",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "serialized native execution"
+      "name": "serialized native execution",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "idempotent task ID"
+      "name": "idempotent task ID",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "ID conflict rejected"
+      "name": "ID conflict rejected",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "proxy and original loaded"
+      "name": "proxy and original loaded",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "API module installed in editor root"
+      "name": "API module installed in editor root",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "editor has no child process"
+      "name": "editor has no child process",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "API belongs to original editor PID"
+      "name": "API belongs to original editor PID",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "prior task committed"
+      "name": "prior task committed",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "active synthesis before restart"
+      "name": "active synthesis before restart",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "pending synthesis before restart"
+      "name": "pending synthesis before restart",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "original editor closed normally"
+      "name": "original editor closed normally",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "auto loaded after normal restart"
+      "name": "auto loaded after normal restart",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "task history persists"
+      "name": "task history persists",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "active task marked interrupted"
+      "name": "active task marked interrupted",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "interrupted partial removed"
+      "name": "interrupted partial removed",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "queued task resumes"
+      "name": "queued task resumes",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "explicit recovery"
+      "name": "explicit recovery",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "synthesis after restart and recovery"
+      "name": "synthesis after restart and recovery",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "same waveform across editor restarts"
+      "name": "same waveform across editor restarts",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "drop-in bridge automatically loaded"
+      "name": "drop-in bridge automatically loaded",
+      "passed": true
     },
     {
-      "passed": true,
-      "name": "no helper child process after restart"
+      "name": "no helper child process after restart",
+      "passed": true
     }
   ],
   "platform": "Windows x64"

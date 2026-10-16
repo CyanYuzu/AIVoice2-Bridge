@@ -1,6 +1,7 @@
 param([string]$EditorRoot='C:\Program Files\AI\AIVoice2\AIVoice2Editor',[switch]$Uninstall)
 $ErrorActionPreference='Stop'
 $originalHash='431767fa70d128427315b8b43a2be74a3da03a2d8a80679955522a917934ac4f'
+$knownBridgeHashes=@('0baed598f8f61785966a3af181f1d356bdb31b81e6befff4e11ecb00a3fbed99')
 $target=Join-Path $EditorRoot 'window_size_plugin.dll'
 $backup=Join-Path $EditorRoot 'aivoice2_window_size_original.dll'
 $payload=Join-Path $PSScriptRoot 'window_size_plugin.dll'
@@ -24,7 +25,7 @@ try {
  }
  if((Get-FileHash -LiteralPath $backup -Algorithm SHA256).Hash.ToLowerInvariant() -ne $originalHash){throw 'Original plugin backup hash mismatch.'}
  $currentHash=(Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash.ToLowerInvariant()
- if($currentHash -ne $originalHash -and $currentHash -ne $expectedPayload){throw 'An unknown replacement is present; refusing to overwrite it.'}
+ if($currentHash -ne $originalHash -and $currentHash -ne $expectedPayload -and $currentHash -notin $knownBridgeHashes){throw 'An unknown replacement is present; restore the verified original plugin before installation.'}
  if($currentHash -ne $expectedPayload){
   try {Copy-Item -LiteralPath $payload -Destination $target -Force}
   catch {Copy-Item -LiteralPath $backup -Destination $target -Force;throw}
