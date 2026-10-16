@@ -1,0 +1,13 @@
+/build/
+/dist/
+/evidence/
+/tools/*
+!/tools/json.hpp
+/drop-in/*.dll
+/drop-in/*.lib
+/drop-in/*.exp
+/drop-in/SHA256.txt
+/drop-in/installation-result.json
+**/__pycache__/
+*.user
+*.local.*

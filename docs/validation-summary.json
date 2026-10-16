@@ -1,0 +1,385 @@
+{
+  "batch": {
+    "real_time_factor": 0.19624871511902886,
+    "wall_seconds": 6.6389632,
+    "audio_seconds": 33.82933333333333
+  },
+  "protocol": 2,
+  "schema_version": 1,
+  "limitations": [
+    "Hash-pinned original editor files only",
+    "No multi-day soak test or other editor-version claim",
+    "No listening-quality or new-language-quality acceptance claim"
+  ],
+  "deployment": "editor-drop-in-dll",
+  "raw_evidence_published": false,
+  "editor_version": "2.13.0",
+  "voice_count": 8,
+  "checks": [
+    {
+      "passed": true,
+      "name": "native drop-in ready"
+    },
+    {
+      "passed": true,
+      "name": "eight licensed voices"
+    },
+    {
+      "passed": true,
+      "name": "native rate bounds"
+    },
+    {
+      "passed": true,
+      "name": "baseline succeeded"
+    },
+    {
+      "passed": true,
+      "name": "baseline WAV"
+    },
+    {
+      "passed": true,
+      "name": "baseline hash"
+    },
+    {
+      "passed": true,
+      "name": "repeat succeeded"
+    },
+    {
+      "passed": true,
+      "name": "repeat WAV"
+    },
+    {
+      "passed": true,
+      "name": "repeat hash"
+    },
+    {
+      "passed": true,
+      "name": "repeat bit identical"
+    },
+    {
+      "passed": true,
+      "name": "faster succeeded"
+    },
+    {
+      "passed": true,
+      "name": "faster WAV"
+    },
+    {
+      "passed": true,
+      "name": "faster hash"
+    },
+    {
+      "passed": true,
+      "name": "rate changes duration"
+    },
+    {
+      "passed": true,
+      "name": "parameter-pitch succeeded"
+    },
+    {
+      "passed": true,
+      "name": "parameter-pitch WAV"
+    },
+    {
+      "passed": true,
+      "name": "parameter-pitch hash"
+    },
+    {
+      "passed": true,
+      "name": "parameter-pitch changes waveform"
+    },
+    {
+      "passed": true,
+      "name": "parameter-volume succeeded"
+    },
+    {
+      "passed": true,
+      "name": "parameter-volume WAV"
+    },
+    {
+      "passed": true,
+      "name": "parameter-volume hash"
+    },
+    {
+      "passed": true,
+      "name": "parameter-volume changes waveform"
+    },
+    {
+      "passed": true,
+      "name": "parameter-emphasis succeeded"
+    },
+    {
+      "passed": true,
+      "name": "parameter-emphasis WAV"
+    },
+    {
+      "passed": true,
+      "name": "parameter-emphasis hash"
+    },
+    {
+      "passed": true,
+      "name": "parameter-emphasis changes waveform"
+    },
+    {
+      "passed": true,
+      "name": "parameter-styles succeeded"
+    },
+    {
+      "passed": true,
+      "name": "parameter-styles WAV"
+    },
+    {
+      "passed": true,
+      "name": "parameter-styles hash"
+    },
+    {
+      "passed": true,
+      "name": "parameter-styles changes waveform"
+    },
+    {
+      "passed": true,
+      "name": "reset succeeded"
+    },
+    {
+      "passed": true,
+      "name": "reset WAV"
+    },
+    {
+      "passed": true,
+      "name": "reset hash"
+    },
+    {
+      "passed": true,
+      "name": "parameters isolated"
+    },
+    {
+      "passed": true,
+      "name": "KizunaAkari_ns_48 succeeded"
+    },
+    {
+      "passed": true,
+      "name": "KizunaAkari_ns_48 WAV"
+    },
+    {
+      "passed": true,
+      "name": "KizunaAkari_ns_48 hash"
+    },
+    {
+      "passed": true,
+      "name": "KotonohaAkane_ns_48 succeeded"
+    },
+    {
+      "passed": true,
+      "name": "KotonohaAkane_ns_48 WAV"
+    },
+    {
+      "passed": true,
+      "name": "KotonohaAkane_ns_48 hash"
+    },
+    {
+      "passed": true,
+      "name": "KotonohaAoi_ns_48 succeeded"
+    },
+    {
+      "passed": true,
+      "name": "KotonohaAoi_ns_48 WAV"
+    },
+    {
+      "passed": true,
+      "name": "KotonohaAoi_ns_48 hash"
+    },
+    {
+      "passed": true,
+      "name": "MeikaHime_ns_48 succeeded"
+    },
+    {
+      "passed": true,
+      "name": "MeikaHime_ns_48 WAV"
+    },
+    {
+      "passed": true,
+      "name": "MeikaHime_ns_48 hash"
+    },
+    {
+      "passed": true,
+      "name": "MeikaMikoto_ns_48 succeeded"
+    },
+    {
+      "passed": true,
+      "name": "MeikaMikoto_ns_48 WAV"
+    },
+    {
+      "passed": true,
+      "name": "MeikaMikoto_ns_48 hash"
+    },
+    {
+      "passed": true,
+      "name": "OtomachiUna_ns_48 succeeded"
+    },
+    {
+      "passed": true,
+      "name": "OtomachiUna_ns_48 WAV"
+    },
+    {
+      "passed": true,
+      "name": "OtomachiUna_ns_48 hash"
+    },
+    {
+      "passed": true,
+      "name": "TsunoseKotone_ns_48 succeeded"
+    },
+    {
+      "passed": true,
+      "name": "TsunoseKotone_ns_48 WAV"
+    },
+    {
+      "passed": true,
+      "name": "TsunoseKotone_ns_48 hash"
+    },
+    {
+      "passed": true,
+      "name": "original setter error reported"
+    },
+    {
+      "passed": true,
+      "name": "invalid task has no WAV"
+    },
+    {
+      "passed": true,
+      "name": "after-error succeeded"
+    },
+    {
+      "passed": true,
+      "name": "after-error WAV"
+    },
+    {
+      "passed": true,
+      "name": "after-error hash"
+    },
+    {
+      "passed": true,
+      "name": "recovery retains original waveform"
+    },
+    {
+      "passed": true,
+      "name": "queued cancellation"
+    },
+    {
+      "passed": true,
+      "name": "active cancellation"
+    },
+    {
+      "passed": true,
+      "name": "cancel cleans partial"
+    },
+    {
+      "passed": true,
+      "name": "after-cancel succeeded"
+    },
+    {
+      "passed": true,
+      "name": "after-cancel WAV"
+    },
+    {
+      "passed": true,
+      "name": "after-cancel hash"
+    },
+    {
+      "passed": true,
+      "name": "after cancellation recovery"
+    },
+    {
+      "passed": true,
+      "name": "batch queue completes"
+    },
+    {
+      "passed": true,
+      "name": "batch repeatability"
+    },
+    {
+      "passed": true,
+      "name": "serialized native execution"
+    },
+    {
+      "passed": true,
+      "name": "idempotent task ID"
+    },
+    {
+      "passed": true,
+      "name": "ID conflict rejected"
+    },
+    {
+      "passed": true,
+      "name": "proxy and original loaded"
+    },
+    {
+      "passed": true,
+      "name": "API module installed in editor root"
+    },
+    {
+      "passed": true,
+      "name": "editor has no child process"
+    },
+    {
+      "passed": true,
+      "name": "API belongs to original editor PID"
+    },
+    {
+      "passed": true,
+      "name": "prior task committed"
+    },
+    {
+      "passed": true,
+      "name": "active synthesis before restart"
+    },
+    {
+      "passed": true,
+      "name": "pending synthesis before restart"
+    },
+    {
+      "passed": true,
+      "name": "original editor closed normally"
+    },
+    {
+      "passed": true,
+      "name": "auto loaded after normal restart"
+    },
+    {
+      "passed": true,
+      "name": "task history persists"
+    },
+    {
+      "passed": true,
+      "name": "active task marked interrupted"
+    },
+    {
+      "passed": true,
+      "name": "interrupted partial removed"
+    },
+    {
+      "passed": true,
+      "name": "queued task resumes"
+    },
+    {
+      "passed": true,
+      "name": "explicit recovery"
+    },
+    {
+      "passed": true,
+      "name": "synthesis after restart and recovery"
+    },
+    {
+      "passed": true,
+      "name": "same waveform across editor restarts"
+    },
+    {
+      "passed": true,
+      "name": "drop-in bridge automatically loaded"
+    },
+    {
+      "passed": true,
+      "name": "no helper child process after restart"
+    }
+  ],
+  "platform": "Windows x64"
+}

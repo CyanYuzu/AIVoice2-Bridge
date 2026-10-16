@@ -1,0 +1,4 @@
+LIBRARY window_size_plugin
+EXPORTS
+ WindowSizePluginRegisterWithRegistrar @1
+ AIVoice2Bridge_GetProtocolVersion @2
