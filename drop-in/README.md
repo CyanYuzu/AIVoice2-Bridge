@@ -1,6 +1,7 @@
 # 仅 DLL 的编辑器内 API Bridge
 
-适用：已验证哈希的 A.I.VOICE2 Editor 2.13.0，Windows x64。
+适用：已验证完整文件组合的 A.I.VOICE2 Editor 2.13.0、2.14.1，Windows x64。
+版本名相同但文件组合不同仍会拒绝。安装器与 DLL 的指纹来自同一份 `configs/editor-builds.json`；DLL 内嵌配置，运行时不需要额外 JSON 文件。
 
 安装时关闭原编辑器。在原程序根目录，将原 `window_size_plugin.dll` 备份为
 `aivoice2_window_size_original.dll`，再将本目录的 `window_size_plugin.dll` 复制进去。
@@ -13,6 +14,9 @@
 编辑器关闭，API 随之关闭。API 的监听线程、队列和合成工作线程全部属于原编辑器进程。
 
 ## 对外协议
+
+协议仍为 2，已有 YMM4 插件与命名管道调用方无需更换请求格式。
+`health` 额外返回 `editor_build`、`editor_version`、`abi_profile`，用于确认实际承载的编辑器构建。
 
 本地命名管道：`\\.\pipe\AIVoice2Bridge2-<编辑器PID>`，仅允许本机同一用户访问。
 发现文件：`%LOCALAPPDATA%\AIVoice2Bridge\v2\editor-session.json`。

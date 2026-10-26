@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "validated_on": "2026-10-26",
+  "protocol": 2,
+  "deployment": "editor-drop-in-dll",
+  "dll_sha256": "2af847f9ab01b4f7f92c7fe1ed9f9c1df7cac09fb9727b94cbb7de04dfcff541",
+  "dll_bytes": 561664,
+  "raw_evidence_published": false,
+  "environment": {
+    "os": "Windows 11 x64",
+    "sandboxie_version": "5.72.5",
+    "msi_admin_image_extraction_passed": true,
+    "sandbox_msi_upgrade_passed": false,
+    "editor_runtime_source": "Complete official administrative image overlaid in isolated Program Files",
+    "batch_timing_is_exclusive_benchmark": false
+  },
+  "builds": [
+    {
+      "editor_version": "2.13.0",
+      "editor_build": "aivoice2-2.13.0-win-x64",
+      "voice_count": 8,
+      "synthesis": {
+        "passed": 77,
+        "total": 77
+      },
+      "restart": {
+        "passed": 3,
+        "total": 3,
+        "expected_checks": 14,
+        "completed": false,
+        "normal_close_exit_code": null,
+        "limitation": "Strict repeat interrupted by Sandboxie Flutter shutdown failure; not counted as normal-close acceptance"
+      },
+      "reader_lock": {
+        "passed": 6,
+        "total": 6
+      },
+      "reader_lock_after_temporary_file_ms": 1000,
+      "package": {
+        "passed": 8,
+        "total": 8
+      },
+      "batch": {
+        "audio_seconds": 33.82933333333333,
+        "real_time_factor": 0.604374384163645,
+        "wall_seconds": 20.4455825
+      },
+      "restart_test_ui_warmup_seconds": 80
+    },
+    {
+      "editor_version": "2.14.1",
+      "editor_build": "aivoice2-2.14.1-win-x64",
+      "voice_count": 8,
+      "synthesis": {
+        "passed": 77,
+        "total": 77
+      },
+      "restart": {
+        "passed": 14,
+        "total": 14,
+        "expected_checks": 14,
+        "completed": true,
+        "normal_close_exit_code": 0
+      },
+      "reader_lock": {
+        "passed": 6,
+        "total": 6
+      },
+      "reader_lock_after_temporary_file_ms": 1000,
+      "package": {
+        "passed": 8,
+        "total": 8
+      },
+      "batch": {
+        "audio_seconds": 33.82933333333333,
+        "real_time_factor": 0.5523250137947344,
+        "wall_seconds": 18.684787
+      },
+      "restart_test_ui_warmup_seconds": 80
+    }
+  ],
+  "full_build_profile_fixtures": {
+    "passed": 21,
+    "total": 21
+  },
+  "build_provenance": {
+    "passed": 4,
+    "total": 4
+  },
+  "persistent_reader_lock": {
+    "passed": 5,
+    "total": 5
+  },
+  "persistent_reader_lock_after_temporary_file_ms": 2500,
+  "runtime_mixed_backup_rejection_and_ready_recovery": {
+    "passed": 4,
+    "total": 4
+  },
+  "known_gui_shutdown_issue": {
+    "module": "flutter_windows.dll",
+    "offset": "0xc91491",
+    "exception": "0xc0000409",
+    "also_observed_without_bridge": true,
+    "cause_confirmed": false,
+    "excluded_from_normal_close_acceptance": true
+  },
+  "limitations": [
+    "Only listed full-build fingerprints are supported",
+    "Sandboxie MSI upgrade rolled back; administrative image used",
+    "Flutter shutdown failure also reproduced with factory plugin; cause unresolved",
+    "2.13.0 strict shutdown repeat did not complete; initial 14 behavioral checks did not retain exit code",
+    "No multi-day soak or listening/cross-language quality acceptance",
+    "Batch timings include sandboxing and other running editors"
+  ]
+}

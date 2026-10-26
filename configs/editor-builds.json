@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "verified_builds": [
+    {
+      "id": "aivoice2-2.13.0-win-x64",
+      "editor_version": "2.13.0",
+      "abi_profile": "aitalk-2.13.0-x64",
+      "files": {
+        "aivoice.exe": "928e476e5038d6e1403d3f98fc5c644677473b627126d89055756c6b1b81f0c7",
+        "data/app.so": "0c344cd779d788fa1cb45d0f833995c93fd5e687569c795824e600d6b59e56b9",
+        "Lib/AITalk/aitalk_engine.dll": "b565b146b0b4de9cc07bacafbf680847f966d47fec733a6cf376b4089b381bf9",
+        "window_size_plugin.dll": "431767fa70d128427315b8b43a2be74a3da03a2d8a80679955522a917934ac4f"
+      }
+    },
+    {
+      "id": "aivoice2-2.14.1-win-x64",
+      "editor_version": "2.14.1",
+      "abi_profile": "aitalk-2.13.0-x64",
+      "files": {
+        "aivoice.exe": "92f80c8ed10fb2c6a102541b82515a0bcd45b273b37b90e731f856786e797153",
+        "data/app.so": "1cecf26ccecf3d6e89a6ae7a0962284fbe242cfffe3959f6a9eb052e432d5db6",
+        "Lib/AITalk/aitalk_engine.dll": "711aa449c58754bd89402093e077695e8e6175159623c8cf063b979aa3515c17",
+        "window_size_plugin.dll": "c36a58f89cea57deca1375065658444c70417f05abd1cfb2f5190f31b26db84b"
+      }
+    }
+  ],
+  "known_bridge_sha256": [
+    "0baed598f8f61785966a3af181f1d356bdb31b81e6befff4e11ecb00a3fbed99",
+    "5b1f8ce4af7881edfd9cc4756df18012a49213001e4cc45af2cd768ca578b8c4"
+  ]
+}

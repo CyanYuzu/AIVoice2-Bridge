@@ -1,5 +1,9 @@
+﻿param([int]$ExpectedEditorPid=0,[string]$ExpectedBuildId)
 $ErrorActionPreference='Stop'
+. (Join-Path $PSScriptRoot 'process-inspection.ps1')
 $session=Get-Content -LiteralPath "$env:LOCALAPPDATA\AIVoice2Bridge\v2\editor-session.json" -Raw | ConvertFrom-Json
+if($ExpectedEditorPid -and $session.pid -ne $ExpectedEditorPid){throw 'Editor PID differs from the explicitly selected test process'}
+if($ExpectedBuildId -and $session.editor_build -ne $ExpectedBuildId){throw 'Editor build differs from the explicitly selected test build'}
 $run=Join-Path (Resolve-Path evidence).Path ('dropin-'+(Get-Date -Format yyyyMMdd-HHmmss))
 New-Item -ItemType Directory -Path $run | Out-Null
 $checks=[Collections.Generic.List[object]]::new()
@@ -85,12 +89,12 @@ try {
  $modules=@((Get-Process -Id $session.pid).Modules | Where-Object {$_.ModuleName -match 'window_size|aitalk_engine'} | Select-Object ModuleName,FileName)
  Check 'proxy and original loaded' (@($modules | Where-Object {$_.ModuleName -in @('window_size_plugin.dll','aivoice2_window_size_original.dll','aitalk_engine.dll')}).Count -eq 3)
  Check 'API module installed in editor root' (@($modules | Where-Object {$_.ModuleName -eq 'window_size_plugin.dll' -and $_.FileName -eq (Join-Path (Split-Path $session.exe_path -Parent) 'window_size_plugin.dll')}).Count -eq 1)
- $children=@(Get-CimInstance Win32_Process -Filter ('ParentProcessId='+$session.pid))
+ $children=@(Get-EditorChildProcess $session.pid)
  Check 'editor has no child process' ($children.Count -eq 0)
  $identity=Call-Editor @{op='health'}
  Check 'API belongs to original editor PID' ($identity.pid -eq $session.pid -and $identity.protocol -eq 2)
 } finally {
- $report=@{at=(Get-Date).ToString('o');pid=$session.pid;deployment='editor-drop-in-dll';checks=$checks;results=$results;voices=$voices;modules=$modules;batch=$batchMetrics}
+ $report=@{at=(Get-Date).ToString('o');pid=$session.pid;editor_build=$session.editor_build;editor_version=$session.editor_version;deployment='editor-drop-in-dll';checks=$checks;results=$results;voices=$voices;modules=$modules;batch=$batchMetrics}
  $report | ConvertTo-Json -Depth 30 | Set-Content -LiteralPath (Join-Path $run 'report.json') -Encoding utf8
  $report | ConvertTo-Json -Depth 30 | Set-Content -LiteralPath evidence/dropin-e2e.json -Encoding utf8
 }

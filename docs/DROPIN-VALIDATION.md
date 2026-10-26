@@ -1,5 +1,7 @@
 # 根目录 DLL 部署验收
 
+本文保留 0.1.0 / Editor 2.13.0 的历史验收。0.1.1 的 2.14.1 适配、两版回归及当前支持范围见 [COMPATIBILITY-2.14.1.md](COMPATIBILITY-2.14.1.md)。
+
 当前桥为 `drop-in/window_size_plugin.dll`，安装于原版
 `C:\Program Files\AI\AIVoice2\AIVoice2Editor\window_size_plugin.dll`。
 原插件保留为同目录 `aivoice2_window_size_original.dll`，SHA-256 为

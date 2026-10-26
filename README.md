@@ -1,6 +1,6 @@
 # A.I.VOICE2 Editor 根目录 DLL API Bridge
 
-普通用户直接下载 [v0.1.0 预览版安装包](https://github.com/CyanYuzu/AIVoice2-Bridge/releases/tag/v0.1.0)，无需编译。
+普通用户可在 [Releases](https://github.com/CyanYuzu/AIVoice2-Bridge/releases) 下载预编译安装包。2.14.1 需要 0.1.1；旧 0.1.0 安装包只支持 2.13.0。
 首次安装、YMM4 配套使用、卸载和故障排查见 [完整使用说明](docs/INSTALLATION.md)。
 
 当前方案只有一个功能 DLL：`drop-in/window_size_plugin.dll`。
@@ -19,7 +19,9 @@ API 是仅本机同一用户可访问的命名管道 `\\.\pipe\AIVoice2Bridge2-<
 合成调用直接转接已逆向验证的原厂 `aitalk_engine.dll` 中的
 `ai_Talker_*`、`ai_TalkerConfig_*` 及音频回调；启动初始化与许可验证由原版编辑器完成。
 不重做合成引擎、不修改声库、不绕过激活。
-当前固定支持本机 A.I.VOICE2 Editor 2.13.0 / Windows x64 的已验证文件哈希。
+当前源码支持 A.I.VOICE2 Editor **2.13.0、2.14.1 / Windows x64** 的已验证完整文件组合。
+安装器与 DLL 共用 [构建目录](configs/editor-builds.json)，拒绝未知版本及新旧文件混装。
+2.14.1 的接口比较、隔离验证方法和升级注意事项见 [兼容性记录](docs/COMPATIBILITY-2.14.1.md)。
 
 ## 从源码构建
 

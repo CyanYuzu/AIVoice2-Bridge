@@ -30,6 +30,8 @@ static void check(int rc,const char* stage){if(rc!=0)throw Fault("ENGINE_ERROR",
 static std::string utf8(fs::path p){return p.u8string();}
 struct Event{int kind;int pad;void* payload;};
 struct Buffers{unsigned char* pcm;uint64_t bytes;unsigned char* markers;uint64_t markerCount;};
+static_assert(sizeof(Event)==16 && offsetof(Event,payload)==8,"Verified x64 event ABI required");
+static_assert(sizeof(Buffers)==32 && offsetof(Buffers,markerCount)==24,"Verified x64 buffer ABI required");
 struct Capture{
  std::array<unsigned char,262144> pcm{};
  // Each marker is 80 bytes in the hash-pinned 2.13.0 engine (see ABI evidence).

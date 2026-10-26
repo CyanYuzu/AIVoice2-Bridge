@@ -1,5 +1,6 @@
 // Loaded by the original editor's existing plugin import. No launcher or child process.
 #include "bridge.cpp"
+#include "generated-build-profiles.h"
 #include <bcrypt.h>
 #include <condition_variable>
 #include <deque>
@@ -15,6 +16,10 @@ static std::atomic<bool> ready{false};
 static json hostFault=nullptr,voiceCache=json::array(),limitCache=json::object();
 static HMODULE selfModule;
 static HANDLE stateLock=INVALID_HANDLE_VALUE;
+static const verified_builds::Profile* activeBuild=nullptr;
+static json observedBuildFiles=json::array();
+static std::once_flag buildSelection;
+static std::exception_ptr buildSelectionError;
 static double timestamp(){return std::chrono::duration<double>(std::chrono::system_clock::now().time_since_epoch()).count();}
 static json errorInfo(const Fault& e){return {{"code",e.code},{"stage",e.stage},{"native_code",e.native},{"message",e.what()}};}
 static std::string sha256(const fs::path& path){
@@ -31,18 +36,53 @@ static std::string sha256(const fs::path& path){
   BCryptDestroyHash(hash);BCryptCloseAlgorithmProvider(alg,0);return result;
  }catch(...){if(hash)BCryptDestroyHash(hash);BCryptCloseAlgorithmProvider(alg,0);throw;}
 }
+static void verifyEditorBuild(const fs::path& editorRoot){
+ std::call_once(buildSelection,[&]{
+  try{
+   std::map<std::wstring,std::string> digests;
+   for(const auto& profile:verified_builds::profiles)for(const auto& pin:profile.pins){
+    if(digests.count(pin.file))continue;
+    auto file=editorRoot/pin.file;
+    if(!fs::is_regular_file(file)){digests.emplace(pin.file,"");observedBuildFiles.push_back({{"file",utf8(fs::path(pin.file))},{"missing",true}});continue;}
+    auto digest=sha256(file);digests.emplace(pin.file,digest);observedBuildFiles.push_back({{"file",utf8(fs::path(pin.file))},{"sha256",digest}});
+   }
+   for(const auto& profile:verified_builds::profiles){
+    bool matches=true;for(const auto& pin:profile.pins)if(digests.at(pin.file)!=pin.sha256){matches=false;break;}
+    if(matches){activeBuild=&profile;break;}
+   }
+   if(!activeBuild)throw Fault("UNVERIFIED_EDITOR","integrity",0,"No verified Editor build matches the complete file set. Run collect-editor-diagnostics.ps1; do not replace individual hashes.");
+   if(std::string(activeBuild->abi_profile)!="aitalk-2.13.0-x64")throw Fault("UNVERIFIED_ABI","integrity",0,"This bridge has no validated adapter for the selected ABI profile.");
+  }catch(...){buildSelectionError=std::current_exception();}
+ });
+ if(buildSelectionError)std::rethrow_exception(buildSelectionError);
+}
 static void journal(const fs::path& path,const json& value){
  auto tmp=path;tmp+=L".tmp";auto data=value.dump(-1,' ',false,json::error_handler_t::replace);
  HANDLE f=CreateFileW(tmp.c_str(),GENERIC_WRITE,0,nullptr,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL,nullptr);
  if(f==INVALID_HANDLE_VALUE)throw Fault("STATE_IO_ERROR","journal",GetLastError(),"Cannot write task journal");
- DWORD written=0;bool ok=WriteFile(f,data.data(),(DWORD)data.size(),&written,nullptr)&&written==data.size()&&FlushFileBuffers(f);CloseHandle(f);
- if(!ok||!MoveFileExW(tmp.c_str(),path.c_str(),MOVEFILE_REPLACE_EXISTING|MOVEFILE_WRITE_THROUGH))throw Fault("STATE_IO_ERROR","journal",GetLastError(),"Cannot commit task journal");
+ DWORD written=0;bool ok=WriteFile(f,data.data(),(DWORD)data.size(),&written,nullptr)!=FALSE;
+ DWORD writeError=ok?ERROR_SUCCESS:GetLastError();
+ if(ok&&written!=data.size()){ok=false;writeError=ERROR_WRITE_FAULT;}
+ if(ok&&!FlushFileBuffers(f)){ok=false;writeError=GetLastError();}
+ CloseHandle(f);
+ if(!ok)throw Fault("STATE_IO_ERROR","journal",writeError,"Cannot flush task journal: "+utf8(path.filename()));
+ // Readers such as Get-Content can temporarily hold the destination without FILE_SHARE_DELETE.
+ // Keep the durable temporary file and retry the atomic replacement, never delete the destination.
+ const auto deadline=GetTickCount64()+2000;
+ for(;;){
+  if(MoveFileExW(tmp.c_str(),path.c_str(),MOVEFILE_REPLACE_EXISTING|MOVEFILE_WRITE_THROUGH))return;
+  auto error=GetLastError();
+  if((error!=ERROR_ACCESS_DENIED&&error!=ERROR_SHARING_VIOLATION&&error!=ERROR_LOCK_VIOLATION)||GetTickCount64()>=deadline)
+   throw Fault("STATE_IO_ERROR","journal",error,"Cannot commit task journal: "+utf8(path.filename()));
+  Sleep(25);
+ }
 }
 static void saveJob(const json& j){journal(stateRoot/"jobs"/(j.at("id").get<std::string>()+".json"),j);}
 static bool terminal(const std::string& s){return s=="succeeded"||s=="failed"||s=="cancelled"||s=="interrupted";}
 static json health(){
  std::lock_guard<std::mutex> lock(jobsMutex);
- return {{"pid",GetCurrentProcessId()},{"protocol",2},{"deployment","editor-drop-in-dll"},{"backend","original-engine-in-editor"},{"ready",ready.load()},{"busy",busy.load()},{"fault",hostFault},{"queued",pending.size()},{"child_processes_started",0}};
+ return {{"pid",GetCurrentProcessId()},{"protocol",2},{"deployment","editor-drop-in-dll"},{"backend","original-engine-in-editor"},{"ready",ready.load()},{"busy",busy.load()},{"fault",hostFault},{"queued",pending.size()},{"child_processes_started",0},
+ {"editor_build",activeBuild?json(activeBuild->id):json(nullptr)},{"editor_version",activeBuild?json(activeBuild->editor_version):json(nullptr)},{"abi_profile",activeBuild?json(activeBuild->abi_profile):json(nullptr)}};
 }
 static json route(const json& r){
  auto op=r.at("op").get<std::string>();
@@ -146,13 +186,7 @@ static DWORD WINAPI initializeHost(void*){
   root=fs::path(exe).parent_path();auto n=GetEnvironmentVariableW(L"LOCALAPPDATA",local,32768);if(!n||n>=32768)return 1;
   stateRoot=fs::path(local)/"AIVoice2Bridge"/"v2";fs::create_directories(stateRoot/"jobs");fs::create_directories(stateRoot/"outputs");
   stateLock=CreateFileW((stateRoot/"host.lock").c_str(),GENERIC_READ|GENERIC_WRITE,0,nullptr,OPEN_ALWAYS,FILE_ATTRIBUTE_NORMAL,nullptr);if(stateLock==INVALID_HANDLE_VALUE)return 1;
-  struct Pin{const wchar_t* file;const char* hash;};
-  for(auto& pin:std::array<Pin,4>{{
-   {L"aivoice.exe","928e476e5038d6e1403d3f98fc5c644677473b627126d89055756c6b1b81f0c7"},
-   {L"data/app.so","0c344cd779d788fa1cb45d0f833995c93fd5e687569c795824e600d6b59e56b9"},
-   {L"Lib/AITalk/aitalk_engine.dll","b565b146b0b4de9cc07bacafbf680847f966d47fec733a6cf376b4089b381bf9"},
-   {L"aivoice2_window_size_original.dll","431767fa70d128427315b8b43a2be74a3da03a2d8a80679955522a917934ac4f"}
-  }})if(sha256(root/pin.file)!=pin.hash)throw Fault("UNVERIFIED_EDITOR","integrity",0,"Editor version differs from verified 2.13.0 files");
+  verifyEditorBuild(root);
   for(auto& entry:fs::directory_iterator(stateRoot/"jobs"))if(entry.path().extension()==L".json"){
    std::ifstream f(entry.path());json j;f>>j;f.close();std::string id=j.at("id");
    if(id.find_first_not_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-")!=std::string::npos||entry.path().stem()!=fs::u8path(id))throw std::runtime_error("Invalid task journal name");
@@ -165,14 +199,14 @@ static DWORD WINAPI initializeHost(void*){
   std::vector<std::pair<double,std::string>> ordered;for(auto& item:jobs)if(item.second["state"]=="queued")ordered.emplace_back(item.second["created"].get<double>(),item.first);
   std::sort(ordered.begin(),ordered.end());for(auto& item:ordered)pending.push_back(item.second);
   auto server=CreateThread(nullptr,0,dropinServe,nullptr,0,nullptr);if(!server)throw std::runtime_error("Could not start in-process pipe listener");CloseHandle(server);
-  journal(stateRoot/"editor-session.json",{{"pid",GetCurrentProcessId()},{"protocol",2},{"deployment","editor-drop-in-dll"},{"pipe","\\\\.\\pipe\\AIVoice2Bridge2-"+std::to_string(GetCurrentProcessId())},{"exe_path",utf8(fs::path(exe))}});
+  journal(stateRoot/"editor-session.json",{{"pid",GetCurrentProcessId()},{"protocol",2},{"deployment","editor-drop-in-dll"},{"pipe","\\\\.\\pipe\\AIVoice2Bridge2-"+std::to_string(GetCurrentProcessId())},{"exe_path",utf8(fs::path(exe))},{"editor_build",activeBuild->id},{"editor_version",activeBuild->editor_version}});
   for(;;){
    engine=GetModuleHandleW(L"aitalk_engine.dll");
    if(engine){try{auto v=dispatch({{"op","voices"}}),p=dispatch({{"op","parameters"}});std::lock_guard<std::mutex> lock(jobsMutex);voiceCache=v;limitCache=p;hostFault=nullptr;ready=true;break;}catch(const Fault& e){std::lock_guard<std::mutex> lock(jobsMutex);hostFault=errorInfo(e);}}
    Sleep(1000);
   }
   return workQueue(nullptr);
- }catch(const Fault& e){std::lock_guard<std::mutex> lock(jobsMutex);hostFault=errorInfo(e);}
+ }catch(const Fault& e){std::lock_guard<std::mutex> lock(jobsMutex);hostFault=errorInfo(e);if(e.code=="UNVERIFIED_EDITOR")hostFault["observed_files"]=observedBuildFiles;}
  catch(const std::exception& e){std::lock_guard<std::mutex> lock(jobsMutex);hostFault={{"code","HOST_INITIALIZATION_ERROR"},{"message",e.what()}};}
  try{if(!stateRoot.empty())journal(stateRoot/"last-fault.json",hostFault);}catch(...){}
  return 1;
@@ -181,6 +215,19 @@ extern "C" __declspec(dllexport) unsigned AIVoice2Bridge_GetProtocolVersion(){re
 extern "C" __declspec(dllexport) void WindowSizePluginRegisterWithRegistrar(void* registrar){
  wchar_t path[32768]{};GetModuleFileNameW(selfModule,path,32768);
  auto original=fs::path(path).parent_path()/L"aivoice2_window_size_original.dll";
+ try{verifyEditorBuild(original.parent_path());}
+ catch(const std::exception& e){
+  // Do not load an unverified backup while the initializer is validating in parallel.
+  try{
+   std::lock_guard<std::mutex> lock(jobsMutex);
+   const auto* fault=dynamic_cast<const Fault*>(&e);
+   hostFault=fault?errorInfo(*fault):json{{"code","HOST_INITIALIZATION_ERROR"},{"message",e.what()}};
+   hostFault["observed_files"]=observedBuildFiles;
+   wchar_t local[32768]{};auto n=GetEnvironmentVariableW(L"LOCALAPPDATA",local,32768);
+   if(n&&n<32768){auto faultRoot=fs::path(local)/"AIVoice2Bridge"/"v2";fs::create_directories(faultRoot);journal(faultRoot/"last-fault.json",hostFault);}
+  }catch(...){}
+  return;
+ }
  auto module=LoadLibraryExW(original.c_str(),nullptr,LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR|LOAD_LIBRARY_SEARCH_DEFAULT_DIRS);
  auto forward=module?reinterpret_cast<void(*)(void*)>(GetProcAddress(module,"WindowSizePluginRegisterWithRegistrar")):nullptr;
  if(!forward){RaiseFailFastException(nullptr,nullptr,0);return;}

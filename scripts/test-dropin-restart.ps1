@@ -1,6 +1,10 @@
+﻿param([int]$ExpectedEditorPid=0,[string]$ExpectedBuildId)
 $ErrorActionPreference='Stop'
+. (Join-Path $PSScriptRoot 'process-inspection.ps1')
 $sessionPath=Join-Path $env:LOCALAPPDATA 'AIVoice2Bridge\v2\editor-session.json'
 $session=Get-Content -LiteralPath $sessionPath -Raw | ConvertFrom-Json
+if($ExpectedEditorPid -and $session.pid -ne $ExpectedEditorPid){throw 'Editor PID differs from the explicitly selected test process'}
+if($ExpectedBuildId -and $session.editor_build -ne $ExpectedBuildId){throw 'Editor build differs from the explicitly selected test build'}
 $checks=[Collections.Generic.List[object]]::new()
 function Call-Editor($Request){
  $pipe=[IO.Pipes.NamedPipeClientStream]::new('.',('AIVoice2Bridge2-'+$session.pid),[IO.Pipes.PipeDirection]::InOut,[IO.Pipes.PipeOptions]::Asynchronous)
@@ -18,10 +22,15 @@ try {
  Check 'active synthesis before restart' ($j.state -eq 'running')
  $q=Call-Editor @{op='status';id=$queued.id};Check 'pending synthesis before restart' ($q.state -eq 'queued')
  $editor=Get-Process -Id $beforePid
- if($editor.MainWindowTitle -ne 'A.I.VOICE2 Editor - (新規プロジェクト)'){throw 'Unexpected editor project; restart validation aborted'}
- if(!$editor.CloseMainWindow()){throw 'Normal close rejected'}
- if(!$editor.WaitForExit(10000)){throw 'Editor remains open; not forcibly terminated'}
- Check 'original editor closed normally' $true
+ $title=$editor.MainWindowTitle.Replace('[#] ','').Replace(' [#]','')
+ if($title -ne 'A.I.VOICE2 Editor - (新規プロジェクト)'){throw 'Unexpected editor project; restart validation aborted'}
+ $exitObserver=New-EditorExitObserver $beforePid
+ try{
+  if(!$editor.CloseMainWindow()){throw 'Normal close rejected'}
+  if(!$exitObserver.Wait(30000)){throw 'Editor remains open; not forcibly terminated'}
+  $exitCode=$exitObserver.ExitCode
+  Check 'original editor closed normally' ($exitCode -eq 0) @{exit_code=$exitCode}
+ }finally{$exitObserver.Dispose()}
  $editorRoot=Split-Path $session.exe_path -Parent
  $next=Start-Process -FilePath $session.exe_path -WorkingDirectory $editorRoot -PassThru
  $deadline=(Get-Date).AddSeconds(90)
@@ -42,7 +51,7 @@ try {
  Check 'same waveform across editor restarts' ($smoke.result.sha256 -eq $prior.results[0].sha256)
  $modules=@((Get-Process -Id $session.pid).Modules | Where-Object {$_.ModuleName -match 'window_size|aitalk_engine'} | Select-Object ModuleName,FileName)
  Check 'drop-in bridge automatically loaded' (@($modules | Where-Object {$_.ModuleName -eq 'window_size_plugin.dll'}).Count -eq 1)
- $children=@(Get-CimInstance Win32_Process -Filter ('ParentProcessId='+$session.pid));Check 'no helper child process after restart' ($children.Count -eq 0)
+ $children=@(Get-EditorChildProcess $session.pid);Check 'no helper child process after restart' ($children.Count -eq 0)
 } finally {
  @{at=(Get-Date).ToString('o');before_pid=$beforePid;after_pid=$session.pid;checks=$checks;modules=$modules;interrupted=$interrupted;resumed=$resumed;smoke=$smoke} | ConvertTo-Json -Depth 25 | Set-Content -LiteralPath evidence/dropin-restart.json -Encoding utf8
 }
